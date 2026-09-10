@@ -1,1 +1,4919 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>CYBER ARENA</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  color:white;
+  background:#03040b;
+  overflow-x:hidden;
+}
+
+button{
+  font-family:inherit;
+}
+
+/* =====================================================
+   COVER
+===================================================== */
+
+#cover{
+  min-height:100vh;
+
+  background:
+    linear-gradient(
+      rgba(2,4,15,.25),
+      rgba(2,4,15,.7)
+    ),
+    url("okladka.png") center/cover no-repeat;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:30px;
+}
+
+.cover-box{
+  width:min(1100px,95vw);
+  text-align:center;
+  padding-top:330px;
+}
+
+.choice{
+  display:flex;
+  gap:28px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.choice button{
+  width:320px;
+  min-height:90px;
+
+  border-radius:22px;
+  border:2px solid #20cfff;
+
+  background:rgba(0,10,30,.78);
+  color:#fff;
+
+  font-size:28px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 0 25px #087cff66,
+    inset 0 0 25px #087cff22;
+
+  transition:.25s;
+}
+
+.choice button:hover{
+  transform:translateY(-6px) scale(1.03);
+
+  box-shadow:
+    0 0 45px #20cfff;
+}
+
+.choice .football{
+  border-color:#21ff74;
+
+  box-shadow:
+    0 0 25px #21ff7466;
+}
+
+.choice .football:hover{
+  box-shadow:
+    0 0 45px #21ff74;
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+#app{
+  display:none;
+  min-height:100vh;
+  padding:30px;
+}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.top h1{
+  margin:0;
+  font-size:38px;
+
+  text-shadow:
+    0 0 20px #20cfff;
+}
+
+.back{
+  border:1px solid #20cfff;
+  background:#071326;
+  color:white;
+
+  padding:10px 16px;
+
+  border-radius:12px;
+  cursor:pointer;
+}
+
+
+/* =====================================================
+   PLAYER PANEL
+===================================================== */
+
+.player-panel{
+  background:
+    linear-gradient(
+      145deg,
+      #0a1225,
+      #060913
+    );
+
+  border:1px solid #20cfff66;
+
+  box-shadow:
+    0 0 25px #20cfff18;
+
+  border-radius:20px;
+
+  padding:20px;
+
+  margin-bottom:25px;
+}
+
+.player-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+
+  margin-bottom:12px;
+}
+
+.level{
+  font-size:25px;
+  font-weight:900;
+
+  text-shadow:
+    0 0 15px #20cfff;
+}
+
+.exp-text{
+  font-size:17px;
+  opacity:.85;
+}
+
+.exp-bar{
+  width:100%;
+  height:24px;
+
+  background:#020711;
+
+  border-radius:15px;
+
+  overflow:hidden;
+
+  border:1px solid #20cfff66;
+}
+
+.exp-fill{
+  height:100%;
+  width:0;
+
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #087cff,
+      #20cfff,
+      #21ff74
+    );
+
+  box-shadow:
+    0 0 20px #20cfff;
+
+  transition:width .5s ease;
+}
+
+.exp-message{
+  min-height:25px;
+
+  margin-top:10px;
+
+  color:#21ff74;
+
+  font-weight:bold;
+}
+
+
+/* =====================================================
+   GAMES
+===================================================== */
+
+.games{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(240px,1fr)
+    );
+
+  gap:18px;
+}
+
+.card{
+  min-height:190px;
+
+  padding:24px;
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0a1225,
+      #060913
+    );
+
+  border:1px solid #20cfff66;
+
+  box-shadow:
+    0 0 20px #20cfff18;
+
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 0 35px #20cfff35;
+}
+
+.card h2{
+  margin-top:0;
+}
+
+.card button,
+.game button{
+  border:0;
+
+  border-radius:12px;
+
+  padding:12px 18px;
+
+  background:#11bfff;
+
+  color:#00111b;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.card button:hover,
+.game button:hover{
+  filter:brightness(1.2);
+  transform:scale(1.04);
+}
+
+
+/* =====================================================
+   GAME
+===================================================== */
+
+#gameArea{
+  margin-top:25px;
+}
+
+.game{
+  padding:28px;
+
+  border:1px solid #20cfff66;
+
+  border-radius:20px;
+
+  background:#070c18;
+
+  text-align:center;
+
+  min-height:300px;
+
+  box-shadow:
+    0 0 30px #20cfff12;
+}
+
+.big{
+  font-size:50px;
+  font-weight:900;
+  margin:20px;
+}
+
+.msg{
+  font-size:20px;
+  margin:18px;
+
+  min-height:28px;
+}
+
+.small{
+  opacity:.7;
+}
+
+
+/* =====================================================
+   COMBO
+===================================================== */
+
+.combo{
+  font-size:30px;
+
+  font-weight:900;
+
+  color:#ffe600;
+
+  text-shadow:
+    0 0 15px #ff9d00;
+
+  margin:10px;
+}
+
+.critical{
+  font-size:30px;
+
+  color:#ff315c;
+
+  font-weight:900;
+
+  animation:critical .35s infinite alternate;
+}
+
+@keyframes critical{
+
+  from{
+    transform:scale(1);
+  }
+
+  to{
+    transform:scale(1.2);
+  }
+
+}
+
+
+/* =====================================================
+   TARGET
+===================================================== */
+
+.target{
+  width:80px;
+  height:80px;
+
+  border-radius:50%;
+
+  border:0;
+
+  background:#ff2b72;
+
+  color:white;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 0 30px #ff2b72;
+}
+
+
+/* =====================================================
+   ACTION AREA
+===================================================== */
+
+.action-area{
+  height:220px;
+
+  position:relative;
+
+  overflow:hidden;
+
+  border-radius:15px;
+
+  border:1px solid #20cfff33;
+
+  margin-top:20px;
+}
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+#notification{
+  position:fixed;
+
+  left:50%;
+  top:30px;
+
+  transform:
+    translateX(-50%)
+    translateY(-150px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #071b35,
+      #071326
+    );
+
+  border:2px solid #20cfff;
+
+  box-shadow:
+    0 0 35px #20cfff;
+
+  border-radius:18px;
+
+  padding:18px 28px;
+
+  text-align:center;
+
+  z-index:9999;
+
+  transition:
+    transform .4s ease;
+
+  min-width:300px;
+}
+
+#notification.show{
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+#notificationTitle{
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+
+/* =====================================================
+   FLASH
+===================================================== */
+
+.flash{
+  animation:flash .25s;
+}
+
+@keyframes flash{
+
+  0%{
+    filter:brightness(1);
+  }
+
+  50%{
+    filter:brightness(3);
+  }
+
+  100%{
+    filter:brightness(1);
+  }
+
+}
+
+
+/* =====================================================
+   BOSS
+===================================================== */
+
+.boss{
+  font-size:90px;
+  transition:transform .15s;
+}
+
+.boss.hit{
+  transform:
+    translateX(-10px)
+    rotate(-8deg)
+    scale(1.1);
+}
+
+
+/* =====================================================
+   PARKOUR
+===================================================== */
+
+.parkour-game{
+  padding:18px !important;
+}
+
+.parkour-info{
+  display:flex;
+  justify-content:space-around;
+  gap:15px;
+  flex-wrap:wrap;
+
+  margin:12px 0;
+
+  font-weight:900;
+}
+
+.parkour-stat{
+  padding:8px 14px;
+
+  border-radius:10px;
+
+  background:#0b1730;
+
+  border:1px solid #20cfff44;
+}
+
+#parkourCanvas{
+  display:block;
+
+  width:100%;
+  max-width:1000px;
+
+  height:auto;
+
+  margin:15px auto;
+
+  border-radius:15px;
+
+  border:1px solid #20cfff66;
+
+  background:#030712;
+
+  box-shadow:
+    0 0 30px #20cfff15;
+
+  cursor:pointer;
+
+  touch-action:none;
+}
+
+.parkour-controls{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+
+  margin-top:12px;
+}
+
+.jump-button{
+  min-width:180px;
+
+  font-size:20px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #087cff,
+      #20cfff
+    ) !important;
+
+  color:white !important;
+
+  box-shadow:
+    0 0 20px #20cfff55;
+}
+
+.parkour-message{
+  min-height:30px;
+
+  font-size:20px;
+
+  font-weight:900;
+
+  color:#21ff74;
+}
+
+.parkour-hint{
+  opacity:.7;
+  font-size:14px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:700px){
+
+  #app{
+    padding:15px;
+  }
+
+  .choice{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .choice button{
+    width:min(90vw,350px);
+  }
+
+  .cover-box{
+    padding-top:250px;
+  }
+
+  .player-top{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .top h1{
+    font-size:28px;
+  }
+
+  .top{
+    align-items:flex-start;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     COVER
+===================================================== -->
+
+<section id="cover">
+
+  <div class="cover-box">
+
+    <div class="choice">
+
+      <button
+        onclick="openZone('gamer')">
+
+        🎮 GAMER
+
+      </button>
+
+
+      <button
+        class="football"
+        onclick="openZone('football')">
+
+        ⚽ PIŁKA NOŻNA
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<section id="app">
+
+  <div class="wrap">
+
+
+    <div class="top">
+
+      <h1 id="zoneTitle">
+        CYBER ARENA
+      </h1>
+
+
+      <button
+        class="back"
+        onclick="backHome()">
+
+        ← OKŁADKA
+
+      </button>
+
+    </div>
+
+
+
+    <!-- EXP -->
+
+    <div class="player-panel">
+
+      <div class="player-top">
+
+        <div
+          class="level"
+          id="level">
+
+          ⭐ POZIOM 1
+
+        </div>
+
+
+        <div
+          class="exp-text"
+          id="expText">
+
+          0 / 100 EXP
+
+        </div>
+
+      </div>
+
+
+      <div class="exp-bar">
+
+        <div
+          class="exp-fill"
+          id="expFill">
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="exp-message"
+        id="expMessage">
+
+      </div>
+
+    </div>
+
+
+    <!-- GAMES -->
+
+    <div
+      class="games"
+      id="games">
+
+    </div>
+
+
+    <!-- GAME AREA -->
+
+    <div
+      id="gameArea">
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     NOTIFICATION
+===================================================== -->
+
+<div id="notification">
+
+  <div id="notificationTitle">
+    🎉 AWANS!
+  </div>
+
+  <div id="notificationText">
+    Nowy poziom!
+  </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   PLAYER
+===================================================== */
+
+let player =
+  JSON.parse(
+    localStorage.getItem(
+      "cyberArenaPlayer"
+    )
+  ) ||
+  {
+    level:1,
+    exp:0
+  };
+
+
+let currentZone=null;
+
+let activeTimer=null;
+
+let activeIntervals=[];
+
+
+/* =====================================================
+   EXP SYSTEM
+===================================================== */
+
+function expNeeded(){
+
+  return 100 +
+    (player.level-1)*50;
+
+}
+
+
+function savePlayer(){
+
+  localStorage.setItem(
+    "cyberArenaPlayer",
+    JSON.stringify(player)
+  );
+
+}
+
+
+function updateExp(){
+
+  const needed =
+    expNeeded();
+
+
+  document.getElementById(
+    "level"
+  ).textContent =
+    "⭐ POZIOM " +
+    player.level;
+
+
+  document.getElementById(
+    "expText"
+  ).textContent =
+    player.exp +
+    " / " +
+    needed +
+    " EXP";
+
+
+  document.getElementById(
+    "expFill"
+  ).style.width =
+    Math.min(
+      100,
+      player.exp / needed * 100
+    ) + "%";
+
+
+  savePlayer();
+
+}
+
+
+function addExp(amount){
+
+  if(
+    typeof amount !== "number" ||
+    amount <= 0
+  ){
+    return;
+  }
+
+
+  player.exp += Math.floor(amount);
+
+
+  let levelUps=0;
+
+
+  while(
+    player.exp >= expNeeded()
+  ){
+
+    player.exp -=
+      expNeeded();
+
+    player.level++;
+
+    levelUps++;
+
+  }
+
+
+  updateExp();
+
+
+  document.getElementById(
+    "expMessage"
+  ).textContent =
+    "✨ +" +
+    Math.floor(amount) +
+    " EXP";
+
+
+  if(levelUps>0){
+
+    showNotification(
+      "🎉 AWANS!",
+      "POZIOM " +
+      player.level
+    );
+
+
+    document.getElementById(
+      "expMessage"
+    ).textContent =
+      "🔥 NOWY POZIOM: " +
+      player.level;
+
+
+    if(
+      player.level % 3 === 0
+    ){
+
+      setTimeout(()=>{
+
+        showNotification(
+          "🔓 NOWA GRA!",
+          "Odblokowano nowe wyzwanie!"
+        );
+
+      },700);
+
+    }
+
+
+    if(currentZone){
+
+      openZone(
+        currentZone
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+function showNotification(
+  title,
+  text
+){
+
+  const box =
+    document.getElementById(
+      "notification"
+    );
+
+
+  document.getElementById(
+    "notificationTitle"
+  ).textContent =
+    title;
+
+
+  document.getElementById(
+    "notificationText"
+  ).textContent =
+    text;
+
+
+  box.classList.add(
+    "show"
+  );
+
+
+  setTimeout(()=>{
+
+    box.classList.remove(
+      "show"
+    );
+
+  },3500);
+
+}
+
+
+/* =====================================================
+   CLEANUP
+===================================================== */
+
+function stopGame(){
+
+  if(activeTimer){
+
+    clearTimeout(
+      activeTimer
+    );
+
+    clearInterval(
+      activeTimer
+    );
+
+    activeTimer=null;
+
+  }
+
+
+  activeIntervals.forEach(
+    id=>{
+      clearInterval(id);
+      clearTimeout(id);
+    }
+  );
+
+
+  activeIntervals=[];
+
+
+  document.onkeydown=null;
+
+}
+
+
+/* =====================================================
+   GAME LISTS
+===================================================== */
+
+const gamerGames=[
+
+  [
+    "🎯",
+    "AIM TRAINER",
+    "Klikaj cele i buduj combo.",
+    "aimGame()",
+    1
+  ],
+
+  [
+    "⚡",
+    "REFLEX",
+    "Sprawdź swój czas reakcji.",
+    "reflexGame()",
+    1
+  ],
+
+  [
+    "🧠",
+    "MEMORY",
+    "Znajdź wszystkie pary.",
+    "memoryGame()",
+    1
+  ],
+
+  [
+    "⌨️",
+    "KEY CHALLENGE",
+    "Szybko wciskaj właściwe klawisze.",
+    "keyGame()",
+    3
+  ],
+
+  [
+    "🏃",
+    "CYBER PARKOUR",
+    "Skacz przez przeszkody i bij rekord!",
+    "parkourGame()",
+    3
+  ],
+
+  [
+    "🧩",
+    "COLOR MASTER",
+    "Testuj swoją pamięć kolorów.",
+    "colorGame()",
+    6
+  ],
+
+  [
+    "🚀",
+    "SPACE DODGE",
+    "Unikaj asteroid.",
+    "spaceGame()",
+    9
+  ],
+
+  [
+    "💥",
+    "BOSS CHALLENGE",
+    "Pokonaj Bossa!",
+    "bossGame()",
+    12
+  ]
+
+];
+
+
+const footballGames=[
+
+  [
+    "🥅",
+    "PENALTY",
+    "Pokonaj bramkarza.",
+    "penaltyGame()",
+    1
+  ],
+
+  [
+    "⚡",
+    "FOOTBALL REFLEX",
+    "Reaguj na strzał.",
+    "footballReflex()",
+    1
+  ],
+
+  [
+    "🧠",
+    "QUIZ PIŁKARSKI",
+    "Sprawdź swoją wiedzę.",
+    "quizGame()",
+    1
+  ],
+
+  [
+    "🎯",
+    "CELNOŚĆ",
+    "Trafiaj w kolejne cele.",
+    "accuracyGame()",
+    3
+  ],
+
+  [
+    "🏃",
+    "DRIBBLE CHALLENGE",
+    "Przejdź przez tor.",
+    "dribbleGame()",
+    6
+  ],
+
+  [
+    "🥅",
+    "FREE KICK",
+    "Wykonaj perfekcyjny wolny.",
+    "freeKickGame()",
+    9
+  ],
+
+  [
+    "🏆",
+    "CHAMPION MODE",
+    "Zostań mistrzem.",
+    "championGame()",
+    12
+  ]
+
+];
+
+
+/* =====================================================
+   OPEN ZONE
+===================================================== */
+
+function openZone(zone){
+
+  stopGame();
+
+
+  currentZone=zone;
+
+
+  document.getElementById(
+    "cover"
+  ).style.display="none";
+
+
+  document.getElementById(
+    "app"
+  ).style.display="block";
+
+
+  document.getElementById(
+    "zoneTitle"
+  ).textContent =
+    zone==="gamer"
+    ? "🎮 GAMER ZONE"
+    : "⚽ PIŁKA NOŻNA ZONE";
+
+
+  const list =
+    zone==="gamer"
+    ? gamerGames
+    : footballGames;
+
+
+  document.getElementById(
+    "games"
+  ).innerHTML =
+
+    list.map(
+      game=>{
+
+        const unlocked =
+          player.level >= game[4];
+
+
+        if(unlocked){
+
+          return `
+
+            <div class="card">
+
+              <h2>
+                ${game[0]}
+                ${game[1]}
+              </h2>
+
+              <p>
+                ${game[2]}
+              </p>
+
+              <button
+                onclick="${game[3]}">
+
+                START ▶
+
+              </button>
+
+            </div>
+
+          `;
+
+        }
+
+
+        return `
+
+          <div
+            class="card"
+            style="opacity:.45">
+
+            <h2>
+              🔒 ${game[0]}
+              ${game[1]}
+            </h2>
+
+            <p>
+              ${game[2]}
+            </p>
+
+            <button
+              disabled
+              style="
+                background:#333;
+                color:#aaa">
+
+              🔒 POZIOM ${game[4]}
+
+            </button>
+
+            <p class="small">
+
+              Odblokuj na poziomie
+              ${game[4]}
+
+            </p>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+
+  updateExp();
+
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+function backHome(){
+
+  stopGame();
+
+  currentZone=null;
+
+
+  document.getElementById(
+    "app"
+  ).style.display="none";
+
+
+  document.getElementById(
+    "cover"
+  ).style.display="flex";
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML="";
+
+}
+
+
+/* =====================================================
+   AIM TRAINER
+===================================================== */
+
+function aimGame(){
+
+  stopGame();
+
+
+  let score=0;
+
+  let combo=0;
+
+  let time=20;
+
+  let finished=false;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>🎯 AIM TRAINER</h2>
+
+      <div class="combo">
+
+        COMBO:
+        <span id="aimCombo">0</span>
+
+      </div>
+
+      <p>
+
+        Wynik:
+        <b id="aimScore">0</b>
+
+        |
+
+        Czas:
+        <b id="aimTime">20</b>s
+
+      </p>
+
+
+      <div
+        class="action-area"
+        id="aimArea">
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  const area=
+    document.getElementById(
+      "aimArea"
+    );
+
+
+  function spawn(){
+
+    if(finished)
+      return;
+
+
+    area.innerHTML="";
+
+
+    const button=
+      document.createElement(
+        "button"
+      );
+
+
+    button.className="target";
+
+    button.textContent="💥";
+
+    button.style.position="absolute";
+
+    button.style.left=
+      Math.random()*85+"%";
+
+    button.style.top=
+      Math.random()*65+"%";
+
+
+    button.onclick=function(){
+
+      score++;
+
+      combo++;
+
+
+      document.getElementById(
+        "aimScore"
+      ).textContent=score;
+
+
+      document.getElementById(
+        "aimCombo"
+      ).textContent=combo;
+
+
+      let reward=
+        combo>=10
+        ? 6
+        : combo>=5
+        ? 4
+        : 2;
+
+
+      if(
+        Math.random()<.1
+      ){
+
+        reward*=3;
+
+
+        showNotification(
+          "💥 CRITICAL!",
+          "+"+reward+" EXP"
+        );
+
+      }
+
+
+      addExp(reward);
+
+
+      spawn();
+
+    };
+
+
+    area.appendChild(
+      button
+    );
+
+  }
+
+
+  spawn();
+
+
+  activeTimer=
+    setInterval(()=>{
+
+      time--;
+
+
+      document.getElementById(
+        "aimTime"
+      ).textContent=time;
+
+
+      if(time<=0){
+
+        finished=true;
+
+
+        clearInterval(
+          activeTimer
+        );
+
+
+        activeTimer=null;
+
+
+        area.innerHTML=`
+
+          <h2>
+            🏆 KONIEC!
+          </h2>
+
+          <p>
+            Wynik: ${score}
+          </p>
+
+        `;
+
+
+        addExp(
+          Math.min(
+            50,
+            score
+          )
+        );
+
+      }
+
+    },1000);
+
+}
+
+
+/* =====================================================
+   REFLEX
+===================================================== */
+
+function reflexGame(){
+
+  stopGame();
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>⚡ REFLEX</h2>
+
+      <div
+        class="big"
+        id="refStatus">
+
+        READY?
+
+      </div>
+
+      <p id="refMsg">
+        Kliknij START.
+      </p>
+
+      <button
+        id="refButton"
+        onclick="startReflex()">
+
+        START
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+function startReflex(){
+
+  const button=
+    document.getElementById(
+      "refButton"
+    );
+
+
+  const status=
+    document.getElementById(
+      "refStatus"
+    );
+
+
+  const message=
+    document.getElementById(
+      "refMsg"
+    );
+
+
+  button.disabled=true;
+
+  status.textContent=
+    "🔴 CZEKAJ...";
+
+
+  activeTimer=
+    setTimeout(()=>{
+
+      status.textContent=
+        "🟢 KLIKNIJ!";
+
+
+      button.textContent=
+        "KLIK!";
+
+
+      button.disabled=false;
+
+
+      const start=
+        performance.now();
+
+
+      button.onclick=function(){
+
+        const reaction=
+          Math.round(
+            performance.now()-start
+          );
+
+
+        let reward=10;
+
+
+        if(reaction<250)
+          reward=50;
+
+        else if(reaction<350)
+          reward=35;
+
+        else if(reaction<500)
+          reward=20;
+
+
+        message.textContent=
+          reaction+
+          " ms → +"+
+          reward+
+          " EXP";
+
+
+        button.textContent=
+          "JESZCZE RAZ";
+
+
+        button.onclick=
+          startReflex;
+
+
+        addExp(reward);
+
+      };
+
+    },
+    1200+Math.random()*3000
+  );
+
+}
+
+
+/* =====================================================
+   MEMORY
+===================================================== */
+
+function memoryGame(){
+
+  stopGame();
+
+
+  const icons=[
+    "🚀",
+    "🎮",
+    "⚡",
+    "👾",
+    "🔥",
+    "💎"
+  ];
+
+
+  const cards=
+    [...icons,...icons]
+    .sort(
+      ()=>Math.random()-.5
+    );
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>🧠 MEMORY</h2>
+
+      <div
+        id="memoryBoard"
+        style="
+          display:grid;
+          grid-template-columns:
+          repeat(4,70px);
+          gap:10px;
+          justify-content:center">
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  const board=
+    document.getElementById(
+      "memoryBoard"
+    );
+
+
+  let opened=[];
+
+  let matches=0;
+
+  let rewardGiven=false;
+
+
+  cards.forEach(
+    icon=>{
+
+      const button=
+        document.createElement(
+          "button"
+        );
+
+
+      button.textContent="❓";
+
+
+      button.style.cssText=`
+
+        height:70px;
+        font-size:28px;
+        background:#111d35;
+        color:white;
+
+      `;
+
+
+      button.onclick=function(){
+
+        if(
+          opened.length>=2 ||
+          button.dataset.done
+        )
+          return;
+
+
+        button.textContent=
+          icon;
+
+
+        opened.push({
+          button,
+          icon
+        });
+
+
+        if(
+          opened.length===2
+        ){
+
+          if(
+            opened[0].icon===
+            opened[1].icon
+          ){
+
+            opened.forEach(
+              x=>
+                x.button.dataset.done=1
+            );
+
+
+            matches++;
+
+            opened=[];
+
+
+            addExp(8);
+
+
+            if(
+              matches===6 &&
+              !rewardGiven
+            ){
+
+              rewardGiven=true;
+
+
+              setTimeout(()=>{
+
+                showNotification(
+                  "🧠 MEMORY!",
+                  "Wszystkie pary!"
+                );
+
+
+                addExp(40);
+
+              },300);
+
+            }
+
+          }else{
+
+            const old=
+              [...opened];
+
+
+            opened=[];
+
+
+            setTimeout(()=>{
+
+              old.forEach(
+                x=>
+                  x.button.textContent="❓"
+              );
+
+            },600);
+
+          }
+
+        }
+
+      };
+
+
+      board.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   KEY CHALLENGE
+===================================================== */
+
+function keyGame(){
+
+  stopGame();
+
+
+  const keys=[
+    "A","S","D","F",
+    "J","K","L"
+  ];
+
+
+  let score=0;
+
+  let combo=0;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>⌨️ KEY CHALLENGE</h2>
+
+      <div
+        class="big"
+        id="keyLetter">
+
+        A
+
+      </div>
+
+      <div class="combo">
+
+        COMBO:
+        <span id="keyCombo">0</span>
+
+      </div>
+
+      <p>
+
+        Wynik:
+        <b id="keyScore">0</b>
+
+      </p>
+
+    </div>
+
+  `;
+
+
+  let current;
+
+
+  function next(){
+
+    current=
+      keys[
+        Math.floor(
+          Math.random()*keys.length
+        )
+      ];
+
+
+    document.getElementById(
+      "keyLetter"
+    ).textContent=
+      current;
+
+  }
+
+
+  document.onkeydown=function(event){
+
+    const pressed=
+      event.key.toUpperCase();
+
+
+    if(
+      pressed===current
+    ){
+
+      score++;
+
+      combo++;
+
+
+      document.getElementById(
+        "keyScore"
+      ).textContent=
+        score;
+
+
+      document.getElementById(
+        "keyCombo"
+      ).textContent=
+        combo;
+
+
+      let reward=
+        combo>=10
+        ? 10
+        : combo>=5
+        ? 6
+        : 3;
+
+
+      addExp(reward);
+
+
+      next();
+
+    }else{
+
+      combo=0;
+
+
+      document.getElementById(
+        "keyCombo"
+      ).textContent=
+        "0";
+
+    }
+
+  };
+
+
+  next();
+
+}
+
+
+/* =====================================================
+   CYBER PARKOUR
+   INSPIRED BY RHYTHM PLATFORMERS
+===================================================== */
+
+function parkourGame(){
+
+  stopGame();
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game parkour-game">
+
+      <h2>
+        🏃 CYBER PARKOUR
+      </h2>
+
+      <p>
+        Skacz nad przeszkodami i pobij rekord!
+      </p>
+
+
+      <div class="parkour-info">
+
+        <div class="parkour-stat">
+
+          📏 DYSTANS:
+          <span id="parkourDistance">
+            0
+          </span>
+
+        </div>
+
+
+        <div class="parkour-stat">
+
+          🔥 COMBO:
+          <span id="parkourCombo">
+            0
+          </span>
+
+        </div>
+
+
+        <div class="parkour-stat">
+
+          🏆 REKORD:
+          <span id="parkourRecord">
+            0
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <canvas
+        id="parkourCanvas"
+        width="1000"
+        height="400">
+
+      </canvas>
+
+
+      <div
+        class="parkour-message"
+        id="parkourMessage">
+
+        Kliknij lub naciśnij SPACJĘ, aby skoczyć!
+
+      </div>
+
+
+      <div class="parkour-controls">
+
+        <button
+          class="jump-button"
+          id="parkourJump">
+
+          ⬆ SKOK
+
+        </button>
+
+        <button
+          onclick="restartParkour()">
+
+          🔄 RESTART
+
+        </button>
+
+      </div>
+
+
+      <p class="parkour-hint">
+
+        Sterowanie:
+        SPACJA / W / ↑ / kliknięcie / przycisk SKOK
+
+      </p>
+
+    </div>
+
+  `;
+
+
+  const canvas=
+    document.getElementById(
+      "parkourCanvas"
+    );
+
+
+  const ctx=
+    canvas.getContext("2d");
+
+
+  const W=canvas.width;
+
+  const H=canvas.height;
+
+
+  let playerY=300;
+
+  let playerVY=0;
+
+  let playerX=140;
+
+  let gravity=.75;
+
+  let jumpPower=-14;
+
+  let groundY=340;
+
+  let speed=6;
+
+  let distance=0;
+
+  let combo=0;
+
+  let started=false;
+
+  let gameOver=false;
+
+  let lastTime=performance.now();
+
+  let spawnDistance=0;
+
+  let obstacles=[];
+
+  let particles=[];
+
+  let checkpoint=0;
+
+  let rewardDistance=0;
+
+
+  let record=
+    Number(
+      localStorage.getItem(
+        "cyberArenaParkourRecord"
+      )
+    ) || 0;
+
+
+  document.getElementById(
+    "parkourRecord"
+  ).textContent=
+    record;
+
+
+  /*
+    Tworzenie poziomu.
+  */
+
+  function createObstacle(){
+
+    const type=
+      Math.random()<.72
+      ? "spike"
+      : "block";
+
+
+    let width;
+
+    let height;
+
+
+    if(type==="spike"){
+
+      width=35;
+
+      height=38;
+
+    }else{
+
+      width=
+        35+
+        Math.random()*30;
+
+      height=
+        45+
+        Math.random()*40;
+
+    }
+
+
+    obstacles.push({
+
+      x:W+50,
+
+      y:
+        groundY-height,
+
+      width:width,
+
+      height:height,
+
+      type:type,
+
+      passed:false
+
+    });
+
+  }
+
+
+  /*
+    Skok.
+  */
+
+  function jump(){
+
+    if(gameOver)
+      return;
+
+
+    if(!started){
+
+      started=true;
+
+    }
+
+
+    const onGround=
+      playerY>=
+      groundY-45;
+
+
+    if(onGround){
+
+      playerVY=
+        jumpPower;
+
+      combo++;
+
+
+      document.getElementById(
+        "parkourCombo"
+      ).textContent=
+        combo;
+
+
+      /*
+        Mały bonus za dobry rytm.
+      */
+
+      addExp(1);
+
+    }
+
+  }
+
+
+  /*
+    Sterowanie klawiaturą.
+  */
+
+  document.onkeydown=
+    function(event){
+
+      if(
+        event.code==="Space" ||
+        event.key==="ArrowUp" ||
+        event.key.toLowerCase()==="w"
+      ){
+
+        event.preventDefault();
+
+        jump();
+
+      }
+
+    };
+
+
+  /*
+    Sterowanie przyciskiem.
+  */
+
+  document.getElementById(
+    "parkourJump"
+  ).onclick=
+    jump;
+
+
+  /*
+    Kliknięcie w canvas.
+  */
+
+  canvas.addEventListener(
+    "pointerdown",
+    function(){
+
+      jump();
+
+    }
+  );
+
+
+  /*
+    Rysowanie tła.
+  */
+
+  function drawBackground(){
+
+    /*
+      Niebo.
+    */
+
+    ctx.fillStyle="#050a18";
+
+    ctx.fillRect(
+      0,
+      0,
+      W,
+      H
+    );
+
+
+    /*
+      Gwiazdy.
+    */
+
+    for(
+      let i=0;
+      i<35;
+      i++
+    ){
+
+      const x=
+        (
+          i*137 -
+          distance*0.25
+        ) % W;
+
+
+      const y=
+        30+
+        (
+          i*71
+        )%220;
+
+
+      ctx.fillStyle=
+        "#20cfff";
+
+
+      ctx.fillRect(
+        (x+W)%W,
+        y,
+        2,
+        2
+      );
+
+    }
+
+
+    /*
+      Góry / tło.
+    */
+
+    ctx.fillStyle="#071326";
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(0,groundY);
+
+
+    for(
+      let x=0;
+      x<=W;
+      x+=100
+    ){
+
+      const y=
+        280+
+        Math.sin(
+          (x+distance*.3)*
+          .01
+        )*25;
+
+
+      ctx.lineTo(
+        x,
+        y
+      );
+
+    }
+
+
+    ctx.lineTo(
+      W,
+      groundY
+    );
+
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    /*
+      Podłoże.
+    */
+
+    ctx.fillStyle="#09172c";
+
+    ctx.fillRect(
+      0,
+      groundY,
+      W,
+      H-groundY
+    );
+
+
+    /*
+      Linie podłoża.
+    */
+
+    ctx.strokeStyle=
+      "#20cfff44";
+
+    ctx.lineWidth=2;
+
+
+    for(
+      let x=
+        -(
+          distance%50
+        );
+      x<W;
+      x+=50
+    ){
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        x,
+        groundY
+      );
+
+      ctx.lineTo(
+        x+30,
+        H
+      );
+
+      ctx.stroke();
+
+    }
+
+  }
+
+
+  /*
+    Rysowanie gracza.
+  */
+
+  function drawPlayer(){
+
+    const y=
+      playerY;
+
+
+    /*
+      cień
+    */
+
+    ctx.fillStyle=
+      "#00000066";
+
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      playerX+20,
+      groundY+5,
+      28,
+      7,
+      0,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /*
+      ciało
+    */
+
+    ctx.save();
+
+
+    ctx.translate(
+      playerX+20,
+      y+22
+    );
+
+
+    /*
+      lekki obrót podczas lotu
+    */
+
+    ctx.rotate(
+      Math.sin(
+        distance*.03
+      )*.12
+    );
+
+
+    ctx.fillStyle=
+      "#20cfff";
+
+
+    ctx.fillRect(
+      -20,
+      -20,
+      40,
+      40
+    );
+
+
+    ctx.strokeStyle=
+      "#ffffff";
+
+
+    ctx.lineWidth=2;
+
+
+    ctx.strokeRect(
+      -20,
+      -20,
+      40,
+      40
+    );
+
+
+    /*
+      środek
+    */
+
+    ctx.fillStyle=
+      "#071326";
+
+
+    ctx.fillRect(
+      -9,
+      -9,
+      18,
+      18
+    );
+
+
+    ctx.restore();
+
+  }
+
+
+  /*
+    Rysowanie przeszkód.
+  */
+
+  function drawObstacle(ob){
+
+    if(ob.type==="spike"){
+
+      ctx.fillStyle=
+        "#ff315c";
+
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        ob.x,
+        groundY
+      );
+
+      ctx.lineTo(
+        ob.x+
+        ob.width/2,
+        ob.y
+      );
+
+      ctx.lineTo(
+        ob.x+
+        ob.width,
+        groundY
+      );
+
+      ctx.closePath();
+
+      ctx.fill();
+
+
+      ctx.strokeStyle=
+        "#ffffff66";
+
+      ctx.stroke();
+
+    }else{
+
+      ctx.fillStyle=
+        "#9d35ff";
+
+
+      ctx.fillRect(
+        ob.x,
+        ob.y,
+        ob.width,
+        ob.height
+      );
+
+
+      ctx.strokeStyle=
+        "#ffffff66";
+
+      ctx.strokeRect(
+        ob.x,
+        ob.y,
+        ob.width,
+        ob.height
+      );
+
+    }
+
+  }
+
+
+  /*
+    Cząsteczki.
+  */
+
+  function addParticle(
+    x,
+    y
+  ){
+
+    particles.push({
+
+      x:x,
+
+      y:y,
+
+      vx:
+        -1+
+        Math.random()*2,
+
+      vy:
+        -2-
+        Math.random()*2,
+
+      life:1
+
+    });
+
+  }
+
+
+  function drawParticles(){
+
+    particles.forEach(
+      p=>{
+
+        p.x+=p.vx;
+
+        p.y+=p.vy;
+
+        p.life-=.04;
+
+
+        ctx.globalAlpha=
+          Math.max(
+            0,
+            p.life
+          );
+
+
+        ctx.fillStyle=
+          "#20cfff";
+
+
+        ctx.fillRect(
+          p.x,
+          p.y,
+          4,
+          4
+        );
+
+
+      }
+    );
+
+
+    ctx.globalAlpha=1;
+
+
+    particles=
+      particles.filter(
+        p=>p.life>0
+      );
+
+  }
+
+
+  /*
+    Kolizja.
+  */
+
+  function collision(){
+
+    const playerLeft=
+      playerX;
+
+    const playerRight=
+      playerX+40;
+
+    const playerTop=
+      playerY;
+
+    const playerBottom=
+      playerY+40;
+
+
+    for(
+      const ob of obstacles
+    ){
+
+      const obstacleLeft=
+        ob.x;
+
+      const obstacleRight=
+        ob.x+
+        ob.width;
+
+      const obstacleTop=
+        ob.y;
+
+      const obstacleBottom=
+        groundY;
+
+
+      if(
+        playerRight>obstacleLeft+5 &&
+        playerLeft<obstacleRight-5 &&
+        playerBottom>obstacleTop+5 &&
+        playerTop<obstacleBottom-5
+      ){
+
+        return true;
+
+      }
+
+    }
+
+
+    return false;
+
+  }
+
+
+  /*
+    Główna pętla.
+  */
+
+  function loop(now){
+
+    if(
+      gameOver
+    ){
+
+      drawBackground();
+
+      obstacles.forEach(
+        drawObstacle
+      );
+
+      drawPlayer();
+
+      drawParticles();
+
+      return;
+
+    }
+
+
+    const dt=
+      Math.min(
+        32,
+        now-lastTime
+      );
+
+
+    lastTime=now;
+
+
+    if(started){
+
+      const factor=
+        dt/16.67;
+
+
+      /*
+        Ruch poziomu.
+      */
+
+      distance +=
+        speed*
+        factor;
+
+
+      /*
+        Stopniowe przyspieszanie.
+      */
+
+      speed=
+        Math.min(
+          13,
+          6+
+          distance/1800
+        );
+
+
+      /*
+        Fizyka gracza.
+      */
+
+      playerVY +=
+        gravity*
+        factor;
+
+
+      playerY +=
+        playerVY*
+        factor;
+
+
+      if(
+        playerY >
+        groundY-40
+      ){
+
+        playerY=
+          groundY-40;
+
+        playerVY=0;
+
+      }
+
+
+      /*
+        Generowanie przeszkód.
+      */
+
+      spawnDistance +=
+        speed*
+        factor;
+
+
+      const minimumGap=
+        Math.max(
+          300,
+          500-
+          distance/20
+        );
+
+
+      if(
+        spawnDistance>
+        minimumGap
+      ){
+
+        createObstacle();
+
+        spawnDistance=0;
+
+      }
+
+
+      /*
+        Przesuwanie przeszkód.
+      */
+
+      obstacles.forEach(
+        ob=>{
+
+          ob.x -=
+            speed*
+            factor;
+
+
+          /*
+            Przeskoczenie przeszkody.
+          */
+
+          if(
+            !ob.passed &&
+            ob.x+
+            ob.width<
+            playerX
+          ){
+
+            ob.passed=true;
+
+
+            combo++;
+
+
+            document.getElementById(
+              "parkourCombo"
+            ).textContent=
+              combo;
+
+
+            addParticle(
+              playerX,
+              playerY
+            );
+
+
+            /*
+              Bonus za przeszkodę.
+            */
+
+            let reward=5;
+
+
+            if(combo>=5)
+              reward=8;
+
+
+            if(combo>=10)
+              reward=12;
+
+
+            addExp(reward);
+
+          }
+
+        }
+      );
+
+
+      obstacles=
+        obstacles.filter(
+          ob=>
+            ob.x+
+            ob.width>
+            -100
+        );
+
+
+      /*
+        Sprawdzenie kolizji.
+      */
+
+      if(
+        collision()
+      ){
+
+        gameOver=true;
+
+
+        const finalDistance=
+          Math.floor(
+            distance/10
+          );
+
+
+        document.getElementById(
+          "parkourMessage"
+        ).textContent=
+          "💥 KONIEC! Dystans: "+
+          finalDistance;
+
+
+        /*
+          Bonus za dystans.
+        */
+
+        const finalReward=
+          Math.min(
+            100,
+            Math.floor(
+              finalDistance/10
+            )
+          );
+
+
+        addExp(
+          finalReward
+        );
+
+
+        if(
+          finalDistance>record
+        ){
+
+          record=
+            finalDistance;
+
+
+          localStorage.setItem(
+            "cyberArenaParkourRecord",
+            record
+          );
+
+
+          document.getElementById(
+            "parkourRecord"
+          ).textContent=
+            record;
+
+
+          showNotification(
+            "🏆 NOWY REKORD!",
+            record+
+            " metrów!"
+          );
+
+        }
+
+      }
+
+
+      /*
+        Checkpointy.
+      */
+
+      const currentCheckpoint=
+        Math.floor(
+          distance/500
+        );
+
+
+      if(
+        currentCheckpoint>
+        checkpoint
+      ){
+
+        checkpoint=
+          currentCheckpoint;
+
+
+        showNotification(
+          "🚩 CHECKPOINT!",
+          "+"+
+          (checkpoint*10)+
+          " EXP"
+        );
+
+
+        addExp(
+          10
+        );
+
+      }
+
+
+      /*
+        Aktualizacja UI.
+      */
+
+      document.getElementById(
+        "parkourDistance"
+      ).textContent=
+        Math.floor(
+          distance/10
+        );
+
+    }
+
+
+    /*
+      Rysowanie.
+    */
+
+    drawBackground();
+
+
+    obstacles.forEach(
+      drawObstacle
+    );
+
+
+    drawPlayer();
+
+
+    drawParticles();
+
+
+    requestAnimationFrame(
+      loop
+    );
+
+  }
+
+
+  /*
+    Start animacji.
+  */
+
+  requestAnimationFrame(
+    loop
+  );
+
+}
+
+
+/* =====================================================
+   RESTART PARKOUR
+===================================================== */
+
+function restartParkour(){
+
+  parkourGame();
+
+}
+
+
+/* =====================================================
+   PENALTY
+===================================================== */
+
+function penaltyGame(){
+
+  stopGame();
+
+
+  let goals=0;
+
+  let shots=0;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>🥅 PENALTY</h2>
+
+      <div class="big">
+        🥅
+      </div>
+
+      <p>
+        Masz 5 strzałów.
+      </p>
+
+
+      <button
+        onclick="shootPenalty('LEWO')">
+
+        ⬅ LEWO
+
+      </button>
+
+
+      <button
+        onclick="shootPenalty('ŚRODEK')">
+
+        ⬆ ŚRODEK
+
+      </button>
+
+
+      <button
+        onclick="shootPenalty('PRAWO')">
+
+        PRAWO ➡
+
+      </button>
+
+
+      <div
+        class="msg"
+        id="penaltyMsg">
+
+      </div>
+
+
+      <p>
+
+        Gole:
+        <b id="penGoals">0</b>
+        /5
+
+      </p>
+
+    </div>
+
+  `;
+
+
+  window.shootPenalty=
+    function(where){
+
+      if(shots>=5)
+        return;
+
+
+      shots++;
+
+
+      const keeper=
+        [
+          "LEWO",
+          "ŚRODEK",
+          "PRAWO"
+        ][
+          Math.floor(
+            Math.random()*3
+          )
+        ];
+
+
+      if(
+        where===keeper
+      ){
+
+        document.getElementById(
+          "penaltyMsg"
+        ).textContent=
+          "🧤 OBRONA!";
+
+      }else{
+
+        goals++;
+
+
+        document.getElementById(
+          "penGoals"
+        ).textContent=
+          goals;
+
+
+        document.getElementById(
+          "penaltyMsg"
+        ).textContent=
+          "⚽ GOOOOOL! 🔥";
+
+
+        addExp(15);
+
+      }
+
+
+      if(shots===5){
+
+        if(goals===5){
+
+          setTimeout(()=>{
+
+            showNotification(
+              "🔥 PERFEKCYJNA SERIA!",
+              "+50 EXP"
+            );
+
+
+            addExp(50);
+
+          },300);
+
+        }
+
+      }
+
+    };
+
+}
+
+
+/* =====================================================
+   FOOTBALL REFLEX
+===================================================== */
+
+function footballReflex(){
+
+  stopGame();
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>
+        ⚡ FOOTBALL REFLEX
+      </h2>
+
+      <div
+        class="big"
+        id="footballSignal">
+
+        ⚽
+
+      </div>
+
+
+      <p id="footballMsg">
+        Kliknij START.
+      </p>
+
+
+      <button
+        id="footballButton"
+        onclick="startFootballReflex()">
+
+        START
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+function startFootballReflex(){
+
+  const button=
+    document.getElementById(
+      "footballButton"
+    );
+
+
+  const signal=
+    document.getElementById(
+      "footballSignal"
+    );
+
+
+  const message=
+    document.getElementById(
+      "footballMsg"
+    );
+
+
+  button.disabled=true;
+
+  signal.textContent=
+    "🔴";
+
+
+  activeTimer=
+    setTimeout(()=>{
+
+      signal.textContent=
+        "🟢⚡";
+
+
+      button.textContent=
+        "STRZAŁ!";
+
+
+      button.disabled=false;
+
+
+      const start=
+        performance.now();
+
+
+      button.onclick=function(){
+
+        const ms=
+          Math.round(
+            performance.now()-start
+          );
+
+
+        let reward=10;
+
+
+        if(ms<250)
+          reward=50;
+
+        else if(ms<400)
+          reward=30;
+
+        else if(ms<600)
+          reward=20;
+
+
+        message.textContent=
+          ms+
+          " ms → +"+
+          reward+
+          " EXP";
+
+
+        button.textContent=
+          "JESZCZE RAZ";
+
+
+        button.onclick=
+          startFootballReflex;
+
+
+        addExp(reward);
+
+      };
+
+    },
+    1000+
+    Math.random()*3000
+  );
+
+}
+
+
+/* =====================================================
+   QUIZ
+===================================================== */
+
+function quizGame(){
+
+  stopGame();
+
+
+  const questions=[
+
+    [
+      "Ile zawodników ma drużyna na boisku?",
+      ["11","10","12"],
+      "11"
+    ],
+
+    [
+      "Ile minut trwa regulaminowy mecz?",
+      ["60","90","120"],
+      "90"
+    ],
+
+    [
+      "Z jakiej odległości wykonuje się rzut karny?",
+      ["9 metrów","11 metrów","15 metrów"],
+      "11 metrów"
+    ],
+
+    [
+      "Ile punktów daje zwycięstwo?",
+      ["1","2","3"],
+      "3"
+    ],
+
+    [
+      "Kto może używać rąk w polu karnym?",
+      ["Napastnik","Bramkarz","Obrońca"],
+      "Bramkarz"
+    ]
+
+  ];
+
+
+  let index=0;
+
+  let score=0;
+
+
+  function question(){
+
+    const q=
+      questions[index];
+
+
+    document.getElementById(
+      "gameArea"
+    ).innerHTML=`
+
+      <div class="game">
+
+        <h2>🧠 QUIZ</h2>
+
+        <h3>
+          ${q[0]}
+        </h3>
+
+        <div>
+
+          ${q[1].map(
+            answer=>`
+
+              <button
+                onclick="quizAnswer('${answer}')">
+
+                ${answer}
+
+              </button>
+
+            `
+          ).join("")}
+
+        </div>
+
+        <p>
+
+          Pytanie
+          ${index+1}
+          /
+          ${questions.length}
+
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+
+  window.quizAnswer=
+    function(answer){
+
+      if(
+        answer===
+        questions[index][2]
+      ){
+
+        score++;
+
+        addExp(15);
+
+        showNotification(
+          "✅ DOBRZE!",
+          "+15 EXP"
+        );
+
+      }else{
+
+        showNotification(
+          "❌ ŹLE!",
+          "Następnym razem!"
+        );
+
+      }
+
+
+      index++;
+
+
+      if(
+        index>=questions.length
+      ){
+
+        document.getElementById(
+          "gameArea"
+        ).innerHTML=`
+
+          <div class="game">
+
+            <h2>
+              🏆 QUIZ UKOŃCZONY
+            </h2>
+
+            <div class="big">
+              ${score}/5
+            </div>
+
+          </div>
+
+        `;
+
+      }else{
+
+        question();
+
+      }
+
+    };
+
+
+  question();
+
+}
+
+
+/* =====================================================
+   ACCURACY
+===================================================== */
+
+function accuracyGame(){
+
+  stopGame();
+
+
+  let score=0;
+
+  let combo=0;
+
+  let time=25;
+
+  let finished=false;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>🎯 CELNOŚĆ</h2>
+
+      <div class="combo">
+
+        COMBO:
+        <span id="accCombo">0</span>
+
+      </div>
+
+
+      <p>
+
+        Wynik:
+        <b id="accScore">0</b>
+
+        |
+
+        Czas:
+        <b id="accTime">25</b>
+
+      </p>
+
+
+      <div
+        class="action-area"
+        id="accuracyArea">
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  const area=
+    document.getElementById(
+      "accuracyArea"
+    );
+
+
+  function spawn(){
+
+    if(finished)
+      return;
+
+
+    area.innerHTML="";
+
+
+    const target=
+      document.createElement(
+        "button"
+      );
+
+
+    target.className="target";
+
+    target.textContent="⚽";
+
+    target.style.position="absolute";
+
+    target.style.left=
+      Math.random()*85+"%";
+
+    target.style.top=
+      Math.random()*65+"%";
+
+
+    target.onclick=function(){
+
+      score++;
+
+      combo++;
+
+
+      document.getElementById(
+        "accScore"
+      ).textContent=
+        score;
+
+
+      document.getElementById(
+        "accCombo"
+      ).textContent=
+        combo;
+
+
+      addExp(
+        combo>=5
+        ? 8
+        : 4
+      );
+
+
+      spawn();
+
+    };
+
+
+    area.appendChild(
+      target
+    );
+
+  }
+
+
+  spawn();
+
+
+  activeTimer=
+    setInterval(()=>{
+
+      time--;
+
+
+      document.getElementById(
+        "accTime"
+      ).textContent=
+        time;
+
+
+      if(time<=0){
+
+        finished=true;
+
+
+        clearInterval(
+          activeTimer
+        );
+
+
+        activeTimer=null;
+
+
+        area.innerHTML=`
+
+          <h2>
+            🏆 KONIEC!
+          </h2>
+
+          <p>
+            Wynik: ${score}
+          </p>
+
+        `;
+
+
+        addExp(
+          Math.min(
+            50,
+            score
+          )
+        );
+
+      }
+
+    },1000);
+
+}
+
+
+/* =====================================================
+   COLOR MASTER
+===================================================== */
+
+function colorGame(){
+
+  stopGame();
+
+
+  const colors=[
+
+    ["CZERWONY","#ff3030"],
+    ["NIEBIESKI","#3080ff"],
+    ["ZIELONY","#30ff70"],
+    ["ŻÓŁTY","#ffe530"]
+
+  ];
+
+
+  let score=0;
+
+  let correct;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>
+        🧩 COLOR MASTER
+      </h2>
+
+
+      <div
+        id="colorBox"
+        style="
+          width:130px;
+          height:130px;
+          margin:25px auto;
+          border-radius:25px;
+          box-shadow:0 0 30px #20cfff">
+
+      </div>
+
+
+      <div id="colorButtons"></div>
+
+
+      <p>
+
+        Wynik:
+        <b id="colorScore">0</b>
+
+      </p>
+
+    </div>
+
+  `;
+
+
+  function round(){
+
+    correct=
+      colors[
+        Math.floor(
+          Math.random()*colors.length
+        )
+      ];
+
+
+    document.getElementById(
+      "colorBox"
+    ).style.background=
+      correct[1];
+
+
+    const buttons=
+      document.getElementById(
+        "colorButtons"
+      );
+
+
+    buttons.innerHTML="";
+
+
+    colors.forEach(
+      color=>{
+
+        const b=
+          document.createElement(
+            "button"
+          );
+
+
+        b.textContent=
+          color[0];
+
+
+        b.style.margin="5px";
+
+
+        b.onclick=function(){
+
+          if(
+            color[0]===
+            correct[0]
+          ){
+
+            score++;
+
+
+            document.getElementById(
+              "colorScore"
+            ).textContent=
+              score;
+
+
+            addExp(8);
+
+          }else{
+
+            addExp(1);
+
+          }
+
+
+          round();
+
+        };
+
+
+        buttons.appendChild(
+          b
+        );
+
+      }
+    );
+
+  }
+
+
+  round();
+
+}
+
+
+/* =====================================================
+   SPACE DODGE
+===================================================== */
+
+function spaceGame(){
+
+  stopGame();
+
+
+  let score=0;
+
+  let running=true;
+
+  let shipPosition=47;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>🚀 SPACE DODGE</h2>
+
+      <p>
+        Strzałki ← → aby sterować.
+      </p>
+
+
+      <div
+        id="spaceArea"
+        style="
+          height:280px;
+          position:relative;
+          overflow:hidden;
+          border:1px solid #20cfff55;
+          border-radius:15px">
+
+        <div
+          id="ship"
+          style="
+            position:absolute;
+            bottom:10px;
+            left:47%;
+            font-size:35px">
+
+          🚀
+
+        </div>
+
+      </div>
+
+
+      <p>
+
+        Wynik:
+        <b id="spaceScore">0</b>
+
+      </p>
+
+    </div>
+
+  `;
+
+
+  const area=
+    document.getElementById(
+      "spaceArea"
+    );
+
+
+  const ship=
+    document.getElementById(
+      "ship"
+    );
+
+
+  document.onkeydown=function(event){
+
+    if(!running)
+      return;
+
+
+    if(
+      event.key==="ArrowLeft"
+    ){
+
+      shipPosition=
+        Math.max(
+          0,
+          shipPosition-5
+        );
+
+    }
+
+
+    if(
+      event.key==="ArrowRight"
+    ){
+
+      shipPosition=
+        Math.min(
+          94,
+          shipPosition+5
+        );
+
+    }
+
+
+    ship.style.left=
+      shipPosition+"%";
+
+  };
+
+
+  let speed=3;
+
+
+  activeTimer=
+    setInterval(()=>{
+
+      if(!running)
+        return;
+
+
+      const meteor=
+        document.createElement(
+          "div"
+        );
+
+
+      meteor.textContent="☄️";
+
+
+      let x=
+        Math.random()*90;
+
+      let y=0;
+
+
+      meteor.style.cssText=`
+
+        position:absolute;
+        left:${x}%;
+        top:0;
+        font-size:28px;
+
+      `;
+
+
+      area.appendChild(
+        meteor
+      );
+
+
+      const fall=
+        setInterval(()=>{
+
+          if(!running){
+
+            clearInterval(fall);
+
+            meteor.remove();
+
+            return;
+
+          }
+
+
+          y+=speed;
+
+
+          meteor.style.top=
+            y+"px";
+
+
+          const m=
+            meteor.getBoundingClientRect();
+
+
+          const s=
+            ship.getBoundingClientRect();
+
+
+          if(
+            m.left<s.right &&
+            m.right>s.left &&
+            m.top<s.bottom &&
+            m.bottom>s.top
+          ){
+
+            running=false;
+
+
+            clearInterval(
+              fall
+            );
+
+
+            meteor.remove();
+
+
+            showNotification(
+              "💥 ROZBITY!",
+              "Wynik: "+score
+            );
+
+
+            addExp(
+              Math.min(
+                50,
+                score
+              )
+            );
+
+
+            return;
+
+          }
+
+
+          if(y>270){
+
+            clearInterval(
+              fall
+            );
+
+
+            meteor.remove();
+
+
+            score++;
+
+
+            document.getElementById(
+              "spaceScore"
+            ).textContent=
+              score;
+
+
+            addExp(
+              score%5===0
+              ? 10
+              : 1
+            );
+
+
+            if(
+              score%10===0
+            ){
+
+              speed+=.5;
+
+            }
+
+          }
+
+        },40);
+
+
+      activeIntervals.push(
+        fall
+      );
+
+
+    },800);
+
+
+  activeIntervals.push(
+    activeTimer
+  );
+
+}
+
+
+/* =====================================================
+   BOSS
+===================================================== */
+
+function bossGame(){
+
+  stopGame();
+
+
+  let hp=100;
+
+  let playerHP=100;
+
+  let defeated=false;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>
+        💥 BOSS CHALLENGE
+      </h2>
+
+
+      <div
+        class="boss"
+        id="boss">
+
+        👾
+
+      </div>
+
+
+      <p>
+        HP BOSSA
+      </p>
+
+
+      <div
+        style="
+          height:25px;
+          background:#222;
+          border-radius:20px;
+          overflow:hidden">
+
+        <div
+          id="bossHP"
+          style="
+            width:100%;
+            height:100%;
+            background:#ff304f;
+            transition:.2s">
+
+        </div>
+
+      </div>
+
+
+      <p>
+
+        Twoje HP:
+        <b id="playerHP">
+          100
+        </b>
+
+      </p>
+
+
+      <button
+        onclick="attackBoss()">
+
+        ⚔️ ATAKUJ
+
+      </button>
+
+
+      <button
+        onclick="specialAttack()">
+
+        💥 ATAK SPECJALNY
+
+      </button>
+
+
+      <div
+        class="msg"
+        id="bossMsg">
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  window.attackBoss=function(){
+
+    if(defeated)
+      return;
+
+
+    const damage=
+      8+
+      Math.floor(
+        Math.random()*13
+      );
+
+
+    hp=
+      Math.max(
+        0,
+        hp-damage
+      );
+
+
+    document.getElementById(
+      "bossHP"
+    ).style.width=
+      hp+"%";
+
+
+    addExp(5);
+
+
+    if(
+      Math.random()<.45
+    ){
+
+      const damageTaken=
+        5+
+        Math.floor(
+          Math.random()*10
+        );
+
+
+      playerHP=
+        Math.max(
+          0,
+          playerHP-damageTaken
+        );
+
+
+      document.getElementById(
+        "playerHP"
+      ).textContent=
+        playerHP;
+
+
+      document.getElementById(
+        "bossMsg"
+      ).textContent=
+        "💥 BOSS KONTRATAKUJE!";
+
+    }
+
+
+    if(
+      hp<=75 &&
+      hp>50
+    ){
+
+      document.getElementById(
+        "bossMsg"
+      ).textContent=
+        "🔥 FAZA 2!";
+
+    }
+
+
+    if(
+      hp<=50 &&
+      hp>25
+    ){
+
+      document.getElementById(
+        "bossMsg"
+      ).textContent=
+        "⚡ BOSS JEST WŚCIEKŁY!";
+
+    }
+
+
+    if(
+      hp<=25 &&
+      hp>0
+    ){
+
+      document.getElementById(
+        "bossMsg"
+      ).textContent=
+        "💀 OSTATNIA FAZA!";
+
+    }
+
+
+    if(
+      playerHP<=0
+    ){
+
+      defeated=true;
+
+
+      document.getElementById(
+        "bossMsg"
+      ).textContent=
+        "💀 PRZEGRAŁEŚ!";
+
+
+      return;
+
+    }
+
+
+    if(
+      hp<=0
+    ){
+
+      defeated=true;
+
+
+      showNotification(
+        "👑 BOSS POKONANY!",
+        "+100 EXP"
+      );
+
+
+      addExp(100);
+
+    }
+
+  };
+
+
+  window.specialAttack=function(){
+
+    if(defeated)
+      return;
+
+
+    const damage=
+      20+
+      Math.floor(
+        Math.random()*25
+      );
+
+
+    hp=
+      Math.max(
+        0,
+        hp-damage
+      );
+
+
+    document.getElementById(
+      "bossHP"
+    ).style.width=
+      hp+"%";
+
+
+    document.getElementById(
+      "bossMsg"
+    ).textContent=
+      "💥 ATAK SPECJALNY! -"+
+      damage;
+
+
+    addExp(15);
+
+
+    if(hp<=0){
+
+      defeated=true;
+
+
+      showNotification(
+        "👑 BOSS POKONANY!",
+        "ATAK SPECJALNY!"
+      );
+
+
+      addExp(100);
+
+    }
+
+  };
+
+}
+
+
+/* =====================================================
+   DRIBBLE
+===================================================== */
+
+function dribbleGame(){
+
+  stopGame();
+
+
+  let score=0;
+
+  let finished=false;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>
+        🏃 DRIBBLE CHALLENGE
+      </h2>
+
+      <p>
+        Klikaj piłkę 20 razy!
+      </p>
+
+
+      <div
+        class="big"
+        id="dribbleBall">
+
+        ⚽
+
+      </div>
+
+
+      <button
+        onclick="dribblePoint()">
+
+        KOPNIJ!
+
+      </button>
+
+
+      <div class="combo">
+
+        <span id="dribbleScore">
+          0
+        </span>
+        /20
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  window.dribblePoint=function(){
+
+    if(finished)
+      return;
+
+
+    score++;
+
+
+    document.getElementById(
+      "dribbleScore"
+    ).textContent=
+      score;
+
+
+    const ball=
+      document.getElementById(
+        "dribbleBall"
+      );
+
+
+    ball.style.transform=
+      "scale(1.3)";
+
+
+    setTimeout(()=>{
+
+      ball.style.transform=
+        "scale(1)";
+
+    },120);
+
+
+    addExp(3);
+
+
+    if(
+      score%5===0
+    ){
+
+      addExp(10);
+
+    }
+
+
+    if(score>=20){
+
+      finished=true;
+
+
+      showNotification(
+        "🏆 TOR UKOŃCZONY!",
+        "+50 EXP"
+      );
+
+
+      addExp(50);
+
+    }
+
+  };
+
+}
+
+
+/* =====================================================
+   FREE KICK
+===================================================== */
+
+function freeKickGame(){
+
+  stopGame();
+
+
+  let goals=0;
+
+  let shots=0;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>
+        🥅 FREE KICK
+      </h2>
+
+
+      <div class="big">
+        ⚽
+      </div>
+
+
+      <p>
+        Masz 7 prób.
+      </p>
+
+
+      <button
+        onclick="freeKick('LEWO')">
+
+        ⬅ LEWO
+
+      </button>
+
+
+      <button
+        onclick="freeKick('ŚRODEK')">
+
+        ⬆ ŚRODEK
+
+      </button>
+
+
+      <button
+        onclick="freeKick('PRAWO')">
+
+        PRAWO ➡
+
+      </button>
+
+
+      <div
+        class="msg"
+        id="freeMsg">
+
+      </div>
+
+
+      <p>
+
+        ⚽ Gole:
+        <b id="freeGoals">0</b>
+        /7
+
+      </p>
+
+    </div>
+
+  `;
+
+
+  window.freeKick=function(where){
+
+    if(shots>=7)
+      return;
+
+
+    shots++;
+
+
+    const keeper=
+      [
+        "LEWO",
+        "ŚRODEK",
+        "PRAWO"
+      ][
+        Math.floor(
+          Math.random()*3
+        )
+      ];
+
+
+    if(
+      where===keeper
+    ){
+
+      document.getElementById(
+        "freeMsg"
+      ).textContent=
+        "🧤 BRAMKARZ OBRONIŁ!";
+
+    }else{
+
+      goals++;
+
+
+      document.getElementById(
+        "freeGoals"
+      ).textContent=
+        goals;
+
+
+      document.getElementById(
+        "freeMsg"
+      ).textContent=
+        "⚽ GOOOOOL! 🔥";
+
+
+      addExp(20);
+
+    }
+
+
+    if(
+      shots>=7 &&
+      goals>=5
+    ){
+
+      setTimeout(()=>{
+
+        showNotification(
+          "🔥 ŚWIETNA SERIA!",
+          "+50 EXP"
+        );
+
+
+        addExp(50);
+
+      },300);
+
+    }
+
+  };
+
+}
+
+
+/* =====================================================
+   CHAMPION
+===================================================== */
+
+function championGame(){
+
+  stopGame();
+
+
+  let wins=0;
+
+  let finished=false;
+
+
+  document.getElementById(
+    "gameArea"
+  ).innerHTML=`
+
+    <div class="game">
+
+      <h2>
+        🏆 CHAMPION MODE
+      </h2>
+
+
+      <div class="big">
+        👑
+      </div>
+
+
+      <p>
+        Wygraj 5 wyzwań.
+      </p>
+
+
+      <button
+        onclick="championWin()">
+
+        ⚔️ START WYZWANIA
+
+      </button>
+
+
+      <div class="combo">
+
+        WYGRANE:
+        <span id="championWins">
+          0
+        </span>
+        /5
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  window.championWin=function(){
+
+    if(finished)
+      return;
+
+
+    const chance=
+      Math.random();
+
+
+    if(chance>.35){
+
+      wins++;
+
+
+      document.getElementById(
+        "championWins"
+      ).textContent=
+        wins;
+
+
+      addExp(20);
+
+
+      showNotification(
+        "⚔️ WYGRANA!",
+        "+20 EXP"
+      );
+
+    }else{
+
+      showNotification(
+        "💀 PRZEGRANA",
+        "Spróbuj ponownie!"
+      );
+
+    }
+
+
+    if(wins>=5){
+
+      finished=true;
+
+
+      showNotification(
+        "👑 CHAMPION!",
+        "+150 EXP"
+      );
+
+
+      addExp(150);
+
+    }
+
+  };
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+updateExp();
+
+</script>
+
+</body>
+</html>
